@@ -11,6 +11,7 @@ import java.util.Date;
 public class Doacao {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
     @NotEmpty(message = "O CPF não pode estar em Branco")
     private String cpf;
     @NotEmpty(message = "O NOME não pode estar em Branco")
@@ -167,6 +168,14 @@ public class Doacao {
 
     public void setValorDoacao(double valorDoacao) {
         this.valorDoacao = valorDoacao;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 }
 
