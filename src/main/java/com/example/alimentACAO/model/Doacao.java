@@ -1,21 +1,32 @@
 package com.example.alimentACAO.model;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.validation.constraints.NotEmpty;
 import java.util.Date;
 
+@Entity
 public class Doacao {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @NotEmpty(message = "O CPF não pode estar em Branco")
+    private String cpf;
+    @NotEmpty(message = "O NOME não pode estar em Branco")
     private String nome;
     private String email;
     private String telefone;
     private Date dataNascimento;
     private String sexo;
-    private String cpf;
+    @NotEmpty(message = "O TIPO DE DOAÇÃO não pode estar em Branco")
     private String tipoDoacao;
-
+    @NotEmpty(message = "O VALOR DA DOAÇÃO não pode estar em Branco")
     private double valorDoacao;
     private boolean doacaoAnonima;
     private String cep;
     private String rua;
-    private double numero;
+    private int numero;
     private String complemento;
     private String bairro;
     private String cidade;
@@ -106,7 +117,7 @@ public class Doacao {
         return numero;
     }
 
-    public void setNumero(double numero) {
+    public void setNumero(int numero) {
         this.numero = numero;
     }
 

@@ -1,40 +1,51 @@
 package com.example.alimentACAO.controller;
 
 import com.example.alimentACAO.model.Doacao;
+import com.example.alimentACAO.model.DoacaoRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
-//Controlador para lidar com as solicitações HTTP relacionadas a doações.
 @RestController
 @RequestMapping("/doacao")
 public class DoacaoController {
 
-    private List<Doacao> doacoes;
+    @Autowired
+    private DoacaoRepository repository;
 
-    public DoacaoController() {
-        doacoes = new ArrayList<>();
+    @GetMapping
+    public ResponseEntity<List<Doacao>> getAll() {
+        try {
+            List<Doacao> doacoesList = repository.findAll();
+            if (doacoesList.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+            return new ResponseEntity<>(doacoesList, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
-    // Método para receber doação mensal
-    //manipulações de solicitações POST
     @PostMapping("/mensal")
-    public void receberDoacoesMensais(@RequestBody Doacao doacao) {
-        doacoes.add(doacao);
-        System.out.println("Doação mensal de " + doacao.getValorDoacao() + " recebida de " + doacao.getNome());
+    public ResponseEntity<String> receberDoacaoMensal(@RequestBody Doacao doacao) {
+        try {
+            repository.save(doacao);
+            return new ResponseEntity<>("Doação mensal recebida com sucesso!", HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Falha ao receber doação mensal.", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
-    // Método para receber uma doação única
     @PostMapping("/unica")
-    public void receberDoacoesUnicas(@RequestBody Doacao doacao) {
-        doacoes.add(doacao);
-        System.out.println("Doação única de " + doacao.getValorDoacao() + " recebida de " + doacao.getNome());
-    }
-
-    // Método para listar todas as doações
-    @GetMapping("/lista")
-    public List<Doacao> listarDoacoes() {
-        return doacoes;
+    public ResponseEntity<String> receberDoacaoUnica(@RequestBody Doacao doacao) {
+        try {
+            repository.save(doacao);
+            return new ResponseEntity<>("Doação única recebida com sucesso!", HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Falha ao receber doação única.", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }

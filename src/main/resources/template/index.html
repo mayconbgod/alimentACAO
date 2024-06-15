@@ -214,36 +214,44 @@
   </html>
   <script>
   document.querySelector('.finish-btn span').addEventListener('click', function() {
-      const doacao = {
-          nome: document.getElementById('name').value,
-          email: document.getElementById('email').value,
-          telefone: document.getElementById('telefone').value,
-          dataNascimento: document.getElementById('data').value,
-          sexo: document.getElementById('sexo').value,
-          cpf: document.getElementById('cpf').value,
-          tipoDoacao: document.getElementById('tiposDeDoacao').value,
-          doacaoAnonima: document.getElementById('permissionDados').checked,
-          cep: document.getElementById('cep').value,
-          rua: document.getElementById('rua').value,
-          numero: document.getElementById('numeroCasa').value,
-          complemento: document.getElementById('complemento').value,
-          bairro: document.getElementById('bairro').value,
-          cidade: document.getElementById('cidade').value,
-          estado: document.getElementById('estado').value,
-          aceitarTermos: document.getElementById('permissionData').checked
-      };
+    const doacao = {
+      nome: document.getElementById('name').value,
+      email: document.getElementById('email').value,
+      telefone: document.getElementById('telefone').value,
+      dataNascimento: document.getElementById('data').value,
+      sexo: document.getElementById('sexo').value,
+      cpf: document.getElementById('cpf').value,
+      tipoDoacao: document.getElementById('tiposDeDoacao').value,
+      doacaoAnonima: document.getElementById('permissionDados').checked,
+      cep: document.getElementById('cep').value,
+      rua: document.getElementById('rua').value,
+      numero: document.getElementById('numeroCasa').value,
+      complemento: document.getElementById('complemento').value,
+      bairro: document.getElementById('bairro').value,
+      cidade: document.getElementById('cidade').value,
+      estado: document.getElementById('estado').value,
+      aceitarTermos: document.getElementById('permissionData').checked
+    };
 
-      fetch('/api/doacao', {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(doacao)
-      })
-      .then(response => response.text())
-      .then(data => {
-          alert(data);
-      });
+    fetch('/api/doacao', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(doacao)
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Erro ao enviar o formulário. Por favor, tente novamente mais tarde.');
+      }
+      return response.text();
+    })
+    .then(data => {
+      alert(data);
+    })
+    .catch(error => {
+      alert(error.message); // Exibe o erro para o usuário
+    });
   });
-  </script>
+</script>
   </html>
