@@ -7,5 +7,4 @@ import java.util.List;
 @Repository
 public interface DoacaoRepository extends JpaRepository<Doacao,String>{
     List<Doacao> procurarPeloNome(String nome);
-
 }
