@@ -5,5 +5,5 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface DoacaoRepository extends JpaRepository<Doacao,Long>{
+public interface DoadorRepository extends JpaRepository<Doador,Long>{
 }

@@ -200,6 +200,8 @@
     </div>
   </div>
 </div>
+</body>
+</html>
 <script>
   document.querySelector('.finish-btn span').addEventListener('click', function() {
       const doacao = {
@@ -210,6 +212,7 @@
           sexo: document.getElementById('sexo').value,
           cpf: document.getElementById('cpf').value,
           tipoDoacao: document.getElementById('tiposDeDoacao').value,
+          doacaoAnonima: document.getElementById('permissionDados').checked,
           cep: document.getElementById('cep').value,
           rua: document.getElementById('rua').value,
           numero: document.getElementById('numeroCasa').value,
@@ -234,12 +237,10 @@
           return response.text();
       })
       .then(data => {
-          alert('Doação finalizada com sucesso!');
+          alert(data);
       })
       .catch(error => {
           alert(error.message); // Exibe o erro para o usuário
       });
   });
 </script>
-</body>
-</html>

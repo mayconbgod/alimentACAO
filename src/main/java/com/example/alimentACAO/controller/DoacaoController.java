@@ -1,51 +1,74 @@
 package com.example.alimentACAO.controller;
 
-import com.example.alimentACAO.model.Doacao;
-import com.example.alimentACAO.model.DoacaoRepository;
+import com.example.alimentACAO.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import java.time.LocalDate;
+import java.util.Map;
 
 @RestController
-@RequestMapping("/doacao")
+@RequestMapping("/api/doacao")
 public class DoacaoController {
 
     @Autowired
-    private DoacaoRepository repository;
+    private DoadorRepository doadorRepository;
 
-    @GetMapping
-    public ResponseEntity<List<Doacao>> getAll() {
+    @Autowired
+    private EnderecoRepository enderecoRepository;
+
+    @Autowired
+    private DoacaoRepository doacaoRepository;
+
+    @PostMapping("/doacao")
+    public ResponseEntity<String> criarDoacao(@RequestBody Map<String, Object> payload) {
         try {
-            List<Doacao> doacoesList = repository.findAll();
-            if (doacoesList.isEmpty()) {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            // Salvando o doador
+            Map<String, Object> doadorData = (Map<String, Object>) payload.get("doador");
+            Doador doador = new Doador();
+            doador.setNome((String) doadorData.get("nome"));
+            doador.setEmail((String) doadorData.get("email"));
+            doador.setTelefone((String) doadorData.get("telefone"));
+            doador.setDataNascimento(LocalDate.parse((String) doadorData.get("dataNascimento")));
+            doador.setSexo((String) doadorData.get("sexo"));
+            doador.setCpf((String) doadorData.get("cpf"));
+            doadorRepository.save(doador);
+
+            // Salvando o endereço
+            Map<String, Object> enderecoData = (Map<String, Object>) payload.get("endereco");
+            Endereco endereco = new Endereco();
+            endereco.setCep((String) enderecoData.get("cep"));
+            endereco.setRua((String) enderecoData.get("rua"));
+            endereco.setNumero(Integer.parseInt((String) enderecoData.get("numero")));
+            endereco.setComplemento((String) enderecoData.get("complemento"));
+            endereco.setBairro((String) enderecoData.get("bairro"));
+            endereco.setCidade((String) enderecoData.get("cidade"));
+            endereco.setEstado((String) enderecoData.get("estado"));
+            enderecoRepository.save(endereco);
+
+            // Salvando a doação
+            Map<String, Object> doacaoData = (Map<String, Object>) payload.get("doacao");
+            Doacao doacao = new Doacao();
+            doacao.setDoador(doador);
+            doacao.setEndereco(endereco);
+            String tipoDoacao = (String) doacaoData.get("tipoDoacao");
+
+            if ("MENSAL".equals(tipoDoacao) || "UNICA".equals(tipoDoacao)) {
+                doacao.setTipoDoacao(tipoDoacao);
+                doacao.setValor(Double.valueOf((String) doacaoData.get("valor")));
+                doacao.setAceitarTermos((Boolean) payload.get("aceitarTermos"));
+                doacaoRepository.save(doacao);
+                return ResponseEntity.ok("Doação criada com sucesso!");
+            } else {
+                return ResponseEntity.badRequest().body("Tipo de doação inválido.");
             }
-            return new ResponseEntity<>(doacoesList, HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @PostMapping("/mensal")
-    public ResponseEntity<String> receberDoacaoMensal(@RequestBody Doacao doacao) {
-        try {
-            repository.save(doacao);
-            return new ResponseEntity<>("Doação mensal recebida com sucesso!", HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>("Falha ao receber doação mensal.", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @PostMapping("/unica")
-    public ResponseEntity<String> receberDoacaoUnica(@RequestBody Doacao doacao) {
-        try {
-            repository.save(doacao);
-            return new ResponseEntity<>("Doação única recebida com sucesso!", HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>("Falha ao receber doação única.", HttpStatus.INTERNAL_SERVER_ERROR);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao criar a doação.");
         }
     }
 }

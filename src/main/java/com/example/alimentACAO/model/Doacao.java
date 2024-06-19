@@ -1,85 +1,66 @@
 package com.example.alimentACAO.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
-import java.util.Date;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 
 @Entity
+@Table(name = "Doacoes", schema = "ALIMENTACAO")
 public class Doacao {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "DoacaoID")
     private long id;
-    @NotEmpty(message = "O CPF não pode estar em Branco")
-    private String cpf;
-    @NotEmpty(message = "O NOME não pode estar em Branco")
-    private String nome;
-    private String email;
-    private String telefone;
-    private Date dataNascimento;
-    private String sexo;
+
+    @ManyToOne
+    @JoinColumn(name = "DoadorID", nullable = false)
+    private Doador doador;
+
+    @ManyToOne
+    @JoinColumn(name = "EnderecoID", nullable = false)
+    private Endereco endereco;
+
     @NotEmpty(message = "O TIPO DE DOAÇÃO não pode estar em Branco")
+    @Column(name = "TipoDoacao")
     private String tipoDoacao;
-    @NotEmpty(message = "O VALOR DA DOAÇÃO não pode estar em Branco")
-    private double valorDoacao;
-    private boolean doacaoAnonima;
-    private String cep;
-    private String rua;
-    private int numero;
-    private String complemento;
-    private String bairro;
-    private String cidade;
-    private String estado;
-    private boolean aceitarTermos;
 
-    public String getNome() {
-        return nome;
+    @NotNull(message = "O VALOR DA DOAÇÃO não pode estar em Branco")
+    @Positive(message = "O VALOR DA DOAÇÃO deve ser positivo")
+    @Column(name = "Valor")
+    private Double valor;
+
+    @Column(name = "MeioPagamento")
+    private String meioPagamento;
+
+    @Column(name = "DesejaAceitarTermos")
+    private boolean desejaAceitarTermos;
+
+    // Getters e Setters
+
+    public long getId() {
+        return id;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setId(long id) {
+        this.id = id;
     }
 
-    public String getEmail() {
-        return email;
+    public Doador getDoador() {
+        return doador;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setDoador(Doador doador) {
+        this.doador = doador;
     }
 
-    public String getTelefone() {
-        return telefone;
+    public Endereco getEndereco() {
+        return endereco;
     }
 
-    public void setTelefone(String telefone) {
-        this.telefone = telefone;
-    }
-
-    public Date getDataNascimento() {
-        return dataNascimento;
-    }
-
-    public void setDataNascimento(Date dataNascimento) {
-        this.dataNascimento = dataNascimento;
-    }
-
-    public String getSexo() {
-        return sexo;
-    }
-
-    public void setSexo(String sexo) {
-        this.sexo = sexo;
-    }
-
-    public String getCpf() {
-        return cpf;
-    }
-
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
     }
 
     public String getTipoDoacao() {
@@ -90,92 +71,31 @@ public class Doacao {
         this.tipoDoacao = tipoDoacao;
     }
 
-    public boolean isDoacaoAnonima() {
-        return doacaoAnonima;
+    public Double getValor() {
+        return valor;
     }
 
-    public void setDoacaoAnonima(boolean doacaoAnonima) {
-        this.doacaoAnonima = doacaoAnonima;
+    public void setValor(Double valor) {
+        this.valor = valor;
     }
 
-    public String getCep() {
-        return cep;
+    public String getMeioPagamento() {
+        return meioPagamento;
     }
 
-    public void setCep(String cep) {
-        this.cep = cep;
+    public void setMeioPagamento(String meioPagamento) {
+        this.meioPagamento = meioPagamento;
     }
 
-    public String getRua() {
-        return rua;
+    public boolean isDesejaAceitarTermos() {
+        return desejaAceitarTermos;
     }
 
-    public void setRua(String rua) {
-        this.rua = rua;
+    public void setDesejaAceitarTermos(boolean desejaAceitarTermos) {
+        this.desejaAceitarTermos = desejaAceitarTermos;
     }
 
-    public double getNumero() {
-        return numero;
-    }
+    public void setAceitarTermos(Boolean aceitarTermos) {
 
-    public void setNumero(int numero) {
-        this.numero = numero;
-    }
-
-    public String getComplemento() {
-        return complemento;
-    }
-
-    public void setComplemento(String complemento) {
-        this.complemento = complemento;
-    }
-
-    public String getBairro() {
-        return bairro;
-    }
-
-    public void setBairro(String bairro) {
-        this.bairro = bairro;
-    }
-
-    public String getCidade() {
-        return cidade;
-    }
-
-    public void setCidade(String cidade) {
-        this.cidade = cidade;
-    }
-
-    public String getEstado() {
-        return estado;
-    }
-
-    public void setEstado(String estado) {
-        this.estado = estado;
-    }
-
-    public boolean isAceitarTermos() {
-        return aceitarTermos;
-    }
-
-    public void setAceitarTermos(boolean aceitarTermos) {
-        this.aceitarTermos = aceitarTermos;
-    }
-
-    public double getValorDoacao() {
-        return valorDoacao;
-    }
-
-    public void setValorDoacao(double valorDoacao) {
-        this.valorDoacao = valorDoacao;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 }
-

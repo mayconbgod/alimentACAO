@@ -14,8 +14,4 @@ public class DoacaoService {
         doacaoRepository.save(doacao);
     }
 
-    public List<Doacao> buscarPorNome(String nome) {
-        return doacaoRepository.procurarPeloNome(nome);
-    }
-
 }
