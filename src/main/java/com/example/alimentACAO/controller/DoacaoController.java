@@ -17,7 +17,7 @@ public class DoacaoController {
     private DoacaoRepository repository;
 
     @GetMapping
-    public ResponseEntity<List<Doacao>> getAll() {
+    public ResponseEntity<List<Doacao>> getAllDoacoes() {
         try {
             List<Doacao> doacoesList = repository.findAll();
             if (doacoesList.isEmpty()) {

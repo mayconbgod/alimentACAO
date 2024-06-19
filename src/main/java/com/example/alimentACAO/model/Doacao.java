@@ -1,10 +1,11 @@
 package com.example.alimentACAO.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.validation.constraints.NotEmpty;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotEmpty;
+
 import java.util.Date;
 
 @Entity
@@ -24,7 +25,6 @@ public class Doacao {
     private String tipoDoacao;
     @NotEmpty(message = "O VALOR DA DOAÇÃO não pode estar em Branco")
     private double valorDoacao;
-    private boolean doacaoAnonima;
     private String cep;
     private String rua;
     private int numero;
@@ -88,14 +88,6 @@ public class Doacao {
 
     public void setTipoDoacao(String tipoDoacao) {
         this.tipoDoacao = tipoDoacao;
-    }
-
-    public boolean isDoacaoAnonima() {
-        return doacaoAnonima;
-    }
-
-    public void setDoacaoAnonima(boolean doacaoAnonima) {
-        this.doacaoAnonima = doacaoAnonima;
     }
 
     public String getCep() {

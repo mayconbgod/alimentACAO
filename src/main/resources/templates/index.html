@@ -1,5 +1,5 @@
   <!DOCTYPE html>
-  <html lang="pt-BR">
+  <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,19 +7,29 @@
     <script src="https://kit.fontawesome.com/e68953718c.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="/static/css/reset.css">
     <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" th:href="@{${cssFile}}">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:100" rel="stylesheet">
     <title>Projeto alimentAção</title>
     <style>
       .main_page {
-        background-image: url('/static/images/bg_caridade.png');
+        background-image: url(@{${bgImagePath}});
         background-size: cover;
         background-position: center;
-        color: white; /* Mude a cor do texto se necessário para contraste */
+        color: white;
         padding: 20px;
       }
-      .main_page h1{
-        background-color: rgba(0, 0, 0, 0.5); /* Fundo semi-transparente para melhor leitura */
+      .main_page h1 {
+        background-color: rgba(0, 0, 0, 0.5);
         padding: 10px;
+        border-radius: 5px;
+      }
+      #success-message {
+        display: none;
+        margin-top: 20px;
+        padding: 10px;
+        background-color: #4CAF50;
+        color: white;
+        text-align: center;
         border-radius: 5px;
       }
     </style>
@@ -29,7 +39,7 @@
     <div class="header_menu">
       <i class="fas fa-bars"></i>
     </div>
-    <img class="headerLogo" src="/static/images/logo.png" alt="Logo" width="280" height="60">
+    <img class="headerLogo" th:src="@{${logoPath}}" alt="Logo" width="280" height="60">
     <div class="header_nav_links">
       <a href="/">Home</a>
       <a href="/">Quem Somos</a>
@@ -90,86 +100,77 @@
         </div>
         <div class="toggle-value-container">
           <div class="toggle-value-btn">
-            <input type="radio" id="30" name="toggleValue" checked>
+            <input type="radio" id="30" name="toggleValue" value="30" checked>
             <label for="30" class="toggle-label-value">R$ 30,00</label>
           </div>
           <div class="toggle-value-btn">
-            <input type="radio" id="55" name="toggleValue">
+            <input type="radio" id="55" name="toggleValue" value="55">
             <label for="55" class="toggle-label-value">R$ 55,00</label>
           </div>
           <div class="toggle-value-btn">
-            <input type="radio" id="100" name="toggleValue">
+            <input type="radio" id="100" name="toggleValue" value="100">
             <label for="100" class="toggle-label-value">R$ 100,00</label>
           </div>
           <div class="toggle-value-btn">
-            <input type="radio" id="outroValor" name="toggleValue">
+            <input type="radio" id="outroValor" name="toggleValue" value="outroValor">
             <label for="outroValor" class="toggle-label-value">OUTRO VALOR</label>
+            <input type="number" id="valorOutro" name="valorOutro" placeholder="Insira o valor" style="display: none; margin-top: 5px;">
           </div>
         </div>
         <div class="ulario-info-user">
           <h3>Informe os seus dados de contato:</h3>
           <div class="user-input">
             <label>NOME*</label>
-            <input type="text" id="name" name="name">
+            <input type="text" id="name" name="name" required>
           </div>
           <div class="user-input">
             <label>EMAIL*</label>
-            <input type="email" id="email" name="email">
+            <input type="email" id="email" name="email" required>
           </div>
           <div class="user-input">
             <label>NUMERO DE TELEFONE*</label>
-            <input type="tel" id="telefone" name="telefone">
+            <input type="tel" id="telefone" name="telefone" required>
           </div>
           <div class="user-input">
             <label>DATA DE NASCIMENTO*</label>
-            <input type="date" id="data" name="data">
+            <input type="date" id="data" name="data" required>
           </div>
           <div class="user-input">
             <label>SEXO*</label>
-            <select id="sexo" name="sexo">
+            <select id="sexo" name="sexo" required>
               <option value="">SELECIONE</option>
               <option value="M">MASCULINO</option>
               <option value="F">FEMININO</option>
               <option value="N">PREFIRO NÃO INFORMAR</option>
             </select>
           </div>
-          <h3>
-            Deseja receber informações sobre o impacto das doações recebidas e demais campanhas?
-          </h3>
-          <div class="check-permission">
-            <input type="checkbox" id="permission" name="permissionValue">
-            <label for="permission" class="permission-label">Sim, por favor. Desejo receber essas comunicações.</label>
-          </div>
+
           <h3 class="d-user">INFORME SEUS DADOS PARA DOAÇÃO</h3>
           <div class="user-input">
             <label>CPF*</label>
-            <input type="text" id="cpf" name="cpf">
+            <input type="text" id="cpf" name="cpf" required>
           </div>
           <div class="user-input">
             <label>FORMAS DE DOAÇÃO*</label>
-            <select id="tiposDeDoacao" name="tiposDeDoacao">
+            <select id="tiposDeDoacao" name="tiposDeDoacao" required>
               <option value="">SELECIONE</option>
               <option value="CC">CARTÃO DE CRÉDITO</option>
               <option value="PIX">PIX</option>
               <option value="BOLETO">BOLETO</option>
             </select>
           </div>
-          <div class="check-permission">
-            <input type="checkbox" id="permissionDados" name="permissionDadosValue">
-            <label for="permissionDados" class="permission-label">Desejo manter minha doação e meus dados anônimos</label>
-          </div>
           <h3>Informe seu endereço:</h3>
           <div class="user-input">
             <label>CEP*</label>
-            <input type="text" id="cep" name="cep">
+            <input type="text" id="cep" name="cep" required>
           </div>
           <div class="user-input">
             <label>RUA*</label>
-            <input type="text" id="rua" name="rua">
+            <input type="text" id="rua" name="rua" required>
           </div>
           <div class="user-input">
             <label>NÚMERO*</label>
-            <input type="text" id="numeroCasa" name="numeroCasa">
+            <input type="number" id="numeroCasa" name="numeroCasa" required>
           </div>
           <div class="user-input">
             <label>COMPLEMENTO</label>
@@ -177,81 +178,104 @@
           </div>
           <div class="user-input">
             <label>BAIRRO*</label>
-            <input type="text" id="bairro" name="bairro">
+            <input type="text" id="bairro" name="bairro" required>
           </div>
           <div class="user-input">
             <label>CIDADE*</label>
-            <input type="text" id="cidade" name="cidade">
+            <input type="text" id="cidade" name="cidade" required>
           </div>
           <div class="user-input">
             <label>ESTADO*</label>
-            <input type="text" id="estado" name="estado">
-          </div>
-          <div class="user-input">
+            <input type="text" id="estado" name="estado" required>
           </div>
           <div class="check-permission">
             <input type="checkbox" id="permissionData" name="permissionDataValue">
-            <label for="permissionData" class="permission-label">Li e aceito as Políticas de privacidade*</label>
+            <label for="permissionData" class="permission-label">Li e aceito os termos e condições da política de privacidade.</label>
           </div>
-        </div>
-        <div class="footer">
-          <div></div>
-          <div class="finish-btn">
-            <span>FINALIZAÇÃO DOAÇÃO</span>
-          </div>
-          <div class="termos">
-            <p>
-              Informações Fiscais <br>
-              Política de Cookies <br>
-              Termos de Serviço
-            </p>
+          <div class="user-input finish-btn">
+            <span>FINALIZAR DOAÇÃO</span>
           </div>
         </div>
       </div>
     </div>
   </div>
-  </body>
-  </html>
-  <script>
-  document.querySelector('.finish-btn span').addEventListener('click', function() {
-    const doacao = {
-      nome: document.getElementById('name').value,
-      email: document.getElementById('email').value,
-      telefone: document.getElementById('telefone').value,
-      dataNascimento: document.getElementById('data').value,
-      sexo: document.getElementById('sexo').value,
-      cpf: document.getElementById('cpf').value,
-      tipoDoacao: document.getElementById('tiposDeDoacao').value,
-      doacaoAnonima: document.getElementById('permissionDados').checked,
-      cep: document.getElementById('cep').value,
-      rua: document.getElementById('rua').value,
-      numero: document.getElementById('numeroCasa').value,
-      complemento: document.getElementById('complemento').value,
-      bairro: document.getElementById('bairro').value,
-      cidade: document.getElementById('cidade').value,
-      estado: document.getElementById('estado').value,
-      aceitarTermos: document.getElementById('permissionData').checked
-    };
+  <div id="success-message"></div>
+  <script>document.addEventListener('DOMContentLoaded', function() {
+    const outroValorRadio = document.getElementById('outroValor');
+    const valorOutroInput = document.getElementById('valorOutro');
 
-    fetch('/api/doacao', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(doacao)
-    })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Erro ao enviar o formulário. Por favor, tente novamente mais tarde.');
+    // mostrar/esconder o campo de "OUTRO VALOR"
+    document.querySelectorAll('input[name="toggleValue"]').forEach(radio => {
+      radio.addEventListener('change', function() {
+        if (outroValorRadio.checked) {
+          valorOutroInput.style.display = 'block';
+        } else {
+          valorOutroInput.style.display = 'none';
+          valorOutroInput.value = ''; // Limpa o valor quando escondido
+        }
+      });
+    });
+
+    document.querySelector('.finish-btn span').addEventListener('click', function() {
+      let valorDoacao;
+      if (outroValorRadio.checked) {
+        valorDoacao = parseFloat(valorOutroInput.value);
+      } else {
+        valorDoacao = parseFloat(document.querySelector('input[name="toggleValue"]:checked').value);
       }
-      return response.text();
-    })
-    .then(data => {
-      alert(data);
-    })
-    .catch(error => {
-      alert(error.message); // Exibe o erro para o usuário
+
+      const doacao = {
+        nome: document.getElementById('name').value,
+        email: document.getElementById('email').value,
+        telefone: document.getElementById('telefone').value,
+        dataNascimento: document.getElementById('data').value,
+        sexo: document.getElementById('sexo').value,
+        cpf: document.getElementById('cpf').value,
+        tipoDoacao: document.getElementById('tiposDeDoacao').value,
+        cep: document.getElementById('cep').value,
+        rua: document.getElementById('rua').value,
+        numero: parseInt(document.getElementById('numeroCasa').value),
+        complemento: document.getElementById('complemento').value,
+        bairro: document.getElementById('bairro').value,
+        cidade: document.getElementById('cidade').value,
+        estado: document.getElementById('estado').value,
+        aceitarTermos: document.getElementById('permissionData').checked,
+        valorDoacao: valorDoacao
+      };
+
+      let url;
+      if (document.getElementById('mensal').checked) {
+        url = '/doacao/mensal'; // Endpoint para doação mensal
+      } else if (document.getElementById('unica').checked) {
+        url = '/doacao/unica'; // Endpoint para doação única
+      } else {
+        alert('Selecione o tipo de doação (mensal ou única).');
+        return;
+      }
+
+      fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(doacao)
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Erro ao enviar o formulário. Por favor, tente novamente mais tarde.');
+        }
+        return response.text();
+      })
+      .then(data => {
+        // Exibir mensagem de sucesso
+        document.getElementById('success-message').style.display = 'block';
+        document.getElementById('success-message').textContent = data;
+      })
+      .catch(error => {
+        alert(error.message);
+      });
     });
   });
-</script>
+  </script>
+  </body>
   </html>
