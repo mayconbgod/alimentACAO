@@ -1,7 +1,8 @@
 package com.example.alimentACAO.controller;
 
 import com.example.alimentACAO.model.Doacao;
-import com.example.alimentACAO.model.DoacaoRepository;
+import com.example.alimentACAO.repositorys.DoacaoRepository;
+import com.example.alimentACAO.service.DoacaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,12 +15,12 @@ import java.util.List;
 public class DoacaoController {
 
     @Autowired
-    private DoacaoRepository repository;
+    private DoacaoService doacaoService;
 
     @GetMapping
     public ResponseEntity<List<Doacao>> getAllDoacoes() {
         try {
-            List<Doacao> doacoesList = repository.findAll();
+            List<Doacao> doacoesList = doacaoService.findAll();
             if (doacoesList.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
@@ -32,7 +33,7 @@ public class DoacaoController {
     @PostMapping("/mensal")
     public ResponseEntity<String> receberDoacaoMensal(@RequestBody Doacao doacao) {
         try {
-            repository.save(doacao);
+            doacaoService.create(doacao);
             return new ResponseEntity<>("Doação mensal recebida com sucesso!", HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>("Falha ao receber doação mensal.", HttpStatus.INTERNAL_SERVER_ERROR);
@@ -42,10 +43,12 @@ public class DoacaoController {
     @PostMapping("/unica")
     public ResponseEntity<String> receberDoacaoUnica(@RequestBody Doacao doacao) {
         try {
-            repository.save(doacao);
+            doacaoService.create(doacao);
             return new ResponseEntity<>("Doação única recebida com sucesso!", HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>("Falha ao receber doação única.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+
 }
