@@ -34,7 +34,6 @@ public class UsuarioService {
         return repository.save(usuario);
     }
 
-    @Transactional
     public void delete(Long id) {
         repository.deleteById(id);
     }
