@@ -3,8 +3,6 @@ package com.example.alimentACAO.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 
-import java.util.Date;
-
 @Entity
 public class Doacao {
     @Id

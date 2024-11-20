@@ -31,7 +31,7 @@ public class Beneficiario {
     @Column
     private String sexo; //apenas se for pessoa fisica
     @Column
-    private String endereco;
+    private Endereço endereco;
     @OneToMany
     private List<Doacao> doacoesRecebidas;
 
@@ -55,9 +55,6 @@ public class Beneficiario {
 
     public String getSexo(){return sexo;}
     public void setSexo(String sexo){this.sexo = sexo;}
-
-    public String getEndereco(){return endereco;}
-    public void setEndereco(String email){this.endereco = endereco;}
 
     public List<Doacao> getDoacoesRecebidas() {return doacoesRecebidas;}
     public void setDoacoesRecebidas(List<Doacao> doacoesRecebidas) {this.doacoesRecebidas = doacoesRecebidas;}

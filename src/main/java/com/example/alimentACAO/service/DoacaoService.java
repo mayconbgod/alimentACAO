@@ -33,7 +33,6 @@ public class DoacaoService {
         return doacaoRepository.save(doacao);
     }
 
-    @Transactional
     public void delete(Long id) {
         doacaoRepository.deleteById(id);
     }

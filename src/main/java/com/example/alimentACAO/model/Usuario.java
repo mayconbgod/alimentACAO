@@ -30,8 +30,9 @@ public class Usuario {
     private Date dataNascimento;
     @Column
     private String sexo;
+
     @Column
-    private String endereco;
+    private Endereço endereco;
 
     @OneToMany
     private List<Doacao> doacoes;
@@ -56,9 +57,6 @@ public class Usuario {
 
     public String getSexo(){return sexo;}
     public void setSexo(String sexo){this.sexo = sexo;}
-
-    public String getEndereco(){return endereco;}
-    public void setEndereco(String email){this.endereco = endereco;}
 
     public List<Doacao> getDoacoes() {
         return doacoes;
