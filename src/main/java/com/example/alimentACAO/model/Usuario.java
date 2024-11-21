@@ -1,62 +1,100 @@
 package com.example.alimentACAO.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
+@Table(name = "usuarios")
 public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @OneToOne
+    @JoinColumn(name = "endereco_id", nullable = false)
+    private Endereco endereco;
+
+    @OneToMany(mappedBy = "doador", cascade = CascadeType.ALL)
+    private List<Doacao> doacoes;
+
     @Column
     @NotEmpty(message = "O NOME não pode estar em Branco")
-    public String nome;
+    private String nome;
 
     @Column
     @NotEmpty(message = "O CPF não pode estar em Branco")
-    public String cpf;
+    private String cpf;
 
     @Column
-    public String email;
+    @Email(message = "Formato de email inválido")
+    private String email;
 
     @Column
     public String telefone;
     @Column
-    private Date dataNascimento;
-    @Column
-    private String sexo;
+    private LocalDate dataNascimento;
 
-    @Column
-    private Endereço endereco;
+    @Enumerated(EnumType.STRING)
+    private Sexo sexo;
 
-    @OneToMany
-    private List<Doacao> doacoes;
+    public enum Sexo {
+        MASCULINO,
+        FEMININO,
+        OUTRO;
+    }
 
-    public Long getId() {return id;}
-    public void setId(Long id) {this.id = id;}
+    public Long getId() {
+        return id;
+    }
 
-    public String getNome(){ return nome;}
-    public void setNome(String nome) {this.nome = nome;}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public String getCpf(){ return cpf;}
-    public void setCpf(String cpf) {this.cpf = cpf;}
+    public String getNome() {
+        return nome;
+    }
 
-    public String getEmail(){return email;}
-    public void setEmail(String email){this.email = email;}
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
 
-    public String getTelefone(){return telefone;}
-    public void setTelefone(String telefone){this.telefone = telefone;}
+    public String getCpf() {
+        return cpf;
+    }
 
-    public Date getDataNascimento(){return dataNascimento;}
-    public void setDataNascimento(Date dataNascimento){this.dataNascimento = dataNascimento;}
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
 
-    public String getSexo(){return sexo;}
-    public void setSexo(String sexo){this.sexo = sexo;}
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getTelefone() {
+        return telefone;
+    }
+
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
+    }
+
+    public LocalDate getDataNascimento() {
+        return dataNascimento;
+    }
+
+    public void setDataNascimento(LocalDate dataNascimento) {
+        this.dataNascimento = dataNascimento;
+    }
 
     public List<Doacao> getDoacoes() {
         return doacoes;

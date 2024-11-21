@@ -30,6 +30,12 @@ public class DoacaoController {
         }
     }
 
+    @GetMapping
+    public Doacao get(@PathVariable(name = "id") Long id){
+        Doacao doacao = doacaoService.get(id);
+        return doacao;
+    }
+
     @PostMapping("/mensal")
     public ResponseEntity<String> receberDoacaoMensal(@RequestBody Doacao doacao) {
         try {

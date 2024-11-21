@@ -1,11 +1,10 @@
 package com.example.alimentACAO.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
-public class Endereço {
+@Entity
+@Table(name = "enderecos")
+public class Endereco {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,7 +30,7 @@ public class Endereço {
         this.id = id;
     }
 
-    public String getRua(){
+    public String getRua() {
         return rua;
     }
 
@@ -39,7 +38,7 @@ public class Endereço {
         this.rua = rua;
     }
 
-    public int getNumero(){
+    public int getNumero() {
         return numero;
     }
 
@@ -47,7 +46,7 @@ public class Endereço {
         this.numero = numero;
     }
 
-    public String getBairro(){
+    public String getBairro() {
         return bairro;
     }
 
@@ -55,7 +54,7 @@ public class Endereço {
         this.bairro = bairro;
     }
 
-    public String getComplemento(){
+    public String getComplemento() {
         return complemento;
     }
 
@@ -63,7 +62,7 @@ public class Endereço {
         this.complemento = complemento;
     }
 
-    public String getCidade(){
+    public String getCidade() {
         return cidade;
     }
 
@@ -71,7 +70,7 @@ public class Endereço {
         this.cidade = cidade;
     }
 
-    public String getEstado(){
+    public String getEstado() {
         return estado;
     }
 
