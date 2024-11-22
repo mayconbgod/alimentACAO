@@ -20,7 +20,7 @@ public class UsuarioController {
         return usuario;
     }
 
-    @GetMapping
+    @GetMapping //para listar todos usuarios
     private List<Usuario> findAll() {
         List<Usuario> usuarios = usuarioService.findAll();
         return usuarios;

@@ -20,7 +20,7 @@ public class BeneficiarioController {
         return beneficiario;
     }
 
-    @GetMapping
+    @GetMapping //para listar todos beneficiarios
     private List<Beneficiario> findAll() {
         List<Beneficiario> beneficiarios = beneficiarioService.findAll();
         return beneficiarios;

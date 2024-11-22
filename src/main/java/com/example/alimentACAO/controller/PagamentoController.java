@@ -22,7 +22,7 @@ public class PagamentoController {
         return ResponseEntity.status(HttpStatus.CREATED).body(novoPagamento);
     }
 
-    @GetMapping
+    @GetMapping //para listar todos pagamentos
     public ResponseEntity<List<Pagamento>> findALL() {
         List<Pagamento> pagamentos = pagamentoService.findAll();
         return ResponseEntity.ok(pagamentos);

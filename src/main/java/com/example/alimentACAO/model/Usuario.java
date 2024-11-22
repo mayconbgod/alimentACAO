@@ -3,7 +3,6 @@ package com.example.alimentACAO.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
-
 import java.time.LocalDate;
 import java.util.List;
 
@@ -15,12 +14,14 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
-    @JoinColumn(name = "endereco_id", nullable = false)
-    private Endereco endereco;
+    @Column(nullable = false)
+    private String senha;
 
-    @OneToMany(mappedBy = "doador", cascade = CascadeType.ALL)
-    private List<Doacao> doacoes;
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @JoinTable(name="users_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name="role_id"))
+    private List<Role> roles;
 
     @Column
     @NotEmpty(message = "O NOME não pode estar em Branco")
@@ -36,16 +37,41 @@ public class Usuario {
 
     @Column
     public String telefone;
+
     @Column
     private LocalDate dataNascimento;
 
+    @OneToOne
+    @JoinColumn(name = "endereco_id", nullable = false)
+    private Endereco endereco;
+
+    @OneToMany(mappedBy = "doador", cascade = CascadeType.ALL)
+    private List<Doacao> doacoes;
+
     @Enumerated(EnumType.STRING)
     private Sexo sexo;
+
 
     public enum Sexo {
         MASCULINO,
         FEMININO,
         OUTRO;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
     }
 
     public Long getId() {
@@ -102,5 +128,13 @@ public class Usuario {
 
     public void setDoacoes(List<Doacao> doacoes) {
         this.doacoes = doacoes;
+    }
+
+    public Sexo getSexo() {
+        return sexo;
+    }
+
+    public void setSexo(Sexo sexo) {
+        this.sexo = sexo;
     }
 }
